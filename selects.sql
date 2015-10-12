@@ -24,21 +24,10 @@ SELECT * FROM fonte;
 SELECT * FROM pesquisacontrole where aberto = 1;
 
 /*Busca as ultimas pesquisa de uma determinada fonte*/
-TERMINAR
-SELECT DISTINCT 
-	marca,
-	especificacao,
-	itemid,
-	valorlido,
-	data,
-	fonteid
+SELECT *
 FROM pesquisa
-WHERE fonteid = 2,
-AND data = (
-	SELECT p.data  
-	FROM pesquisa as p 
-	WHERE p.itemid = 2
-	ORDER BY p.data DESC
-	LIMIT 1
-)
-ORDER BY itemid;
+WHERE 
+	ano = ? 
+	AND mes = ?
+	AND semana = ?;
+	
