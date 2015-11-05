@@ -1,12 +1,15 @@
 package br.udesc.ceavi.custovida.dao.search;
 
 import br.udesc.ceavi.custovida.dao.mysql.MysqlConnection;
+import br.udesc.ceavi.custovida.model.Control;
 import br.udesc.ceavi.custovida.model.Item;
 import br.udesc.ceavi.custovida.model.Search;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -64,6 +67,9 @@ public class MysqlSearchDAO implements SearchDAO {
             s.setOldDate(rs.getDate("data"));
             s.setOldPrice(rs.getDouble("valorlido"));
             s.setOldSpecification(rs.getString("especificacao"));
+            s.setNewBrand(rs.getString("marca"));
+            s.setNewSpecification(rs.getString("especificacao"));
+            s.setNewPrice(0);
             Item i = new Item();
             i.setId(rs.getInt("itemid"));
             s.setItem(i);
@@ -75,4 +81,34 @@ public class MysqlSearchDAO implements SearchDAO {
         return searches;
     }
     
+    @Override
+    public void save(Control control) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String insert = "INSERT INTO pesquisa "
+                + "(ano, data, especificacao, marca, mes, mudoumarca, semana, "
+                + "valorlido, fonteid, itemid, usuarioid) VALUES ";
+        for (Search s : control.getSearches()) {
+            String mudouMarca = s.getNewBrand().equals(s.getOldBrand()) ? "N" : "S";
+            insert += "(" + control.getYear() + ", "
+                    + "'" + sdf.format(s.getNewDate()) + "', "
+                    + "'" + s.getNewSpecification() + "', "
+                    + "'" + s.getNewBrand() + "', "
+                    + control.getMonth() + ", "
+                    + "'" + mudouMarca + "', "
+                    + control.getWeek() + ", "
+                    + s.getNewPrice() + ", "
+                    + control.getSource().getId() + ", "
+                    + s.getItem().getId() + ", "
+                    + control.getUser().getId() + "),";
+        }
+        insert = insert.substring(0, insert.length() - 1);
+        System.out.println("Consulta ---> " + insert);
+        
+        Connection con = MysqlConnection.getConnection();
+        Statement st = con.createStatement();
+        st.execute(insert);
+        
+        st.close();
+        con.close();
+    }
 }

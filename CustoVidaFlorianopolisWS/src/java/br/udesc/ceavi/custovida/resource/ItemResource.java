@@ -1,6 +1,5 @@
 package br.udesc.ceavi.custovida.resource;
 
-import br.udesc.ceavi.custovida.model.Control;
 import br.udesc.ceavi.custovida.model.Item;
 import java.util.ArrayList;
 import java.util.List;

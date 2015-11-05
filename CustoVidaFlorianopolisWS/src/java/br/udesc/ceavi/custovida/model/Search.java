@@ -105,4 +105,8 @@ public class Search {
     public void setControl(Control control) {
         this.control = control;
     }
+    
+    public void save(){
+        
+    }
 }

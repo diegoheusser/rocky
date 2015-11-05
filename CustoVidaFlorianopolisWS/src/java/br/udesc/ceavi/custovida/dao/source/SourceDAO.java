@@ -11,5 +11,4 @@ import java.util.List;
 public interface SourceDAO {
     
     List<Source> seekAll() throws Exception;
-    
 }

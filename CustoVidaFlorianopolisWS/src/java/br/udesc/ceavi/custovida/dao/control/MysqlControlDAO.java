@@ -46,7 +46,7 @@ public class MysqlControlDAO implements ControlDAO {
             Control c = new Control();
             c.setId(rs.getInt("pesquisacontroleid"));
             c.setEmissionDate(rs.getDate("dataemissao"));
-            c.setPercentage(0);
+            c.setStatus(0);
             c.setWeek(rs.getInt("semana"));
             c.setMonth(rs.getInt("mes"));
             c.setYear(rs.getInt("ano"));
@@ -68,7 +68,7 @@ public class MysqlControlDAO implements ControlDAO {
     @Override
     public void update(Date deliveryDate, int controlId) throws Exception {
         Connection con = MysqlConnection.getConnection();
-        String update = "UPDATE pesquisacontrole SET dataentrega = ? WHERE pesquisacontroleid = ? ";
+        String update = "UPDATE pesquisacontrole SET dataentrega = ?, aberto = 0 WHERE pesquisacontroleid = ? ";
         PreparedStatement pst = con.prepareStatement(update);
         pst.setDate(1, (java.sql.Date) deliveryDate);
         pst.setInt(2, controlId);

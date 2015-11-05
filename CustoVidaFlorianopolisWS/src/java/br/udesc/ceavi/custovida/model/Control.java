@@ -3,7 +3,6 @@ package br.udesc.ceavi.custovida.model;
 import br.udesc.ceavi.custovida.dao.control.ControlDAO;
 import br.udesc.ceavi.custovida.dao.core.DAOFactory;
 import br.udesc.ceavi.custovida.dao.search.SearchDAO;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,7 +13,7 @@ public class Control {
     private int id;
     private Date emissionDate;
     private Date deliveryDate;
-    private int percentage;
+    private int status;
     private int year;
     private int month;
     private int week;
@@ -73,6 +72,8 @@ public class Control {
     }
 
     public void update() throws Exception {
+        SearchDAO sdao = DAOFactory.getInstance().getSearchDAO();
+        sdao.save(this);
         ControlDAO dao = DAOFactory.getInstance().getControlDAO();
         dao.update(deliveryDate, id);
     }
@@ -93,12 +94,12 @@ public class Control {
         this.emissionDate = emissionDate;
     }
 
-    public int getPercentage() {
-        return percentage;
+    public int getStatus() {
+        return status;
     }
 
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getYear() {
