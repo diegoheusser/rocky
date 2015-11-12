@@ -22,7 +22,7 @@ public class MysqlSourceDAO implements SourceDAO {
     @Override
     public List<Source> seekAll() throws Exception {
         Connection con = MysqlConnection.getConnection();
-        String select = "SELECT * FROM fonte";
+        String select = "SELECT * FROM fonte WHERE localizacao <> 'null'";
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(select);
 

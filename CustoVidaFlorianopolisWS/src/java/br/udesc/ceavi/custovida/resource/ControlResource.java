@@ -38,13 +38,13 @@ public class ControlResource {
     
     @POST
     @Path("update")
-    public Response update(Control control){
+    public String update(Control control){
         try {
             control.update();
-            return  Response.status(200).entity(control.toString()).build();
+            return  "success";
         } catch (Exception ex) {
             Logger.getLogger(ControlResource.class.getName()).log(Level.SEVERE, null, ex);
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.toString()).build();
+            return ex.getMessage();
         }
     } 
 
